@@ -45,14 +45,17 @@ public_users.get('/isbn/:isbn',function (req, res) {
 });
 public_users.get('/async/isbn/:isbn', function (req, res) {
 	const isbn = req.params.isbn;
-	axios.get(`http://localhost:5000/isbn/${isbn}`)
-	  .then(response => {
+  
+	(async () => {
+	  try {
+		const response = await axios.get(`http://localhost:5000/isbn/${isbn}`);
 		res.send(JSON.stringify(response.data, null, 4)); 
-	  })
-	  .catch(error => {
+	  } catch (error) {
 		res.status(500).send(`Error fetching book by ISBN. ${error}`);
-	  });
+	  }
+	})();
   });
+  
   
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {

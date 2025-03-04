@@ -58,7 +58,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     const { review } = req.body;
 
     if (!req.session.authorization) {
-        return res.status(403).json({ message: "You need to log in to post a review" });
+        return res.status(403).json({ message: "You need to log in to post a review"});
     }
     const { username } = req.session.authorization;
 
@@ -75,10 +75,10 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 
     if (userReview) {
         userReview.review = review;
-        return res.status(200).json({ message: "Review updated successfully" });
+        return res.status(200).json({ message: "Review updated successfully", book: book});
     } else {
         book.reviews[username] = review;
-        return res.status(200).json({ message: "Review added successfully" });
+        return res.status(200).json({ message: "Review added successfully", book: book });
     }
 });
 
@@ -97,7 +97,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
 
     if (username in book.reviews) {
         delete book.reviews[username];
-        return res.status(200).json({ message: "Review deleted successfully" });
+        return res.status(200).json({ message: "Review deleted successfully", book:book});
     }
     return res.status(404).json({ message: "Review not found" });
 });
